@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+ROOT_DIR="${DIR}/.."
+
+BUILD_DIR="$ROOT_DIR/dist"
+PLUGIN_FILE="$BUILD_DIR/galaxies.plugin"
+
+mkdir -p "$BUILD_DIR"
+go build -o "$PLUGIN_FILE"
+
+STEAMPIPE_DIR="$HOME/.steampipe"
+INSTALL_DIR="$STEAMPIPE_DIR/plugins/local/galaxies"
+mkdir -p "$INSTALL_DIR"
+ln -sf "$PLUGIN_FILE" "$INSTALL_DIR/galaxies.plugin"
+ln -sf "$ROOT_DIR/galaxies.spc" "$STEAMPIPE_DIR/config/galaxies.spc"

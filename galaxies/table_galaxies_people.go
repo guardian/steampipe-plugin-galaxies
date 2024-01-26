@@ -14,6 +14,14 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
+type Person struct {
+	Name    string   `json:"name"`
+	EmailId string   `json:"emailId"`
+	Role    string   `json:"role"`
+	Teams   []string `json:"teams"`
+	Streams []string `json:"streams"`
+}
+
 func tablePeople() *plugin.Table {
 	return &plugin.Table{
 		Name:        "galaxies_people",
@@ -29,14 +37,6 @@ func tablePeople() *plugin.Table {
 			{Name: "streams", Type: proto.ColumnType_JSON, Description: "TODO"},
 		},
 	}
-}
-
-type GalaxiesPerson struct {
-	Name    string   `json:"name"`
-	EmailId string   `json:"emailId"`
-	Role    string   `json:"role"`
-	Teams   []string `json:"teams"`
-	Streams []string `json:"streams"`
 }
 
 func getPeople(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -59,7 +59,7 @@ func getPeople(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		return err, fmt.Errorf("failed to get file from S3, %w", err)
 	}
 
-	var records []GalaxiesPerson
+	var records []Person
 	err = json.Unmarshal(data, &records)
 	plugin.Logger(ctx).Info("records", records)
 	if err != nil {

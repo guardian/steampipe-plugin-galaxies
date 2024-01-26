@@ -15,6 +15,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"galaxies_people":         tablePeople(),
 			"galaxies_people_profile": tablePeopleProfile(),
 			"galaxies_teams":          tableTeams(),
+			"galaxies_streams":        tableStreams(),
 		},
 	}
 	return p

@@ -1,6 +1,6 @@
 # Steampipe Plugin Galaxies
 
-A [Steampipe](https://steampipe.io/) plugin to query the [Guardian of the Galaxies](https://galaxies.gutools.co.uk/) data.
+A [Steampipe](https://steampipe.io/) plugin to query the [Galaxies of the Guardian](https://galaxies.gutools.co.uk/) data.
 
 ## Usage
 > [!NOTE]

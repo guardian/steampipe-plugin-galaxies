@@ -14,6 +14,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		TableMap: map[string]*plugin.Table{
 			"galaxies_people":         tablePeople(),
 			"galaxies_people_profile": tablePeopleProfile(),
+			"galaxies_teams":          tableTeams(),
 		},
 	}
 	return p

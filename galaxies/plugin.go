@@ -12,7 +12,8 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		Name:             "steampipe-plugin-galaxies",
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		TableMap: map[string]*plugin.Table{
-			"galaxies_people": tablePeople(),
+			"galaxies_people":         tablePeople(),
+			"galaxies_people_profile": tablePeopleProfile(),
 		},
 	}
 	return p

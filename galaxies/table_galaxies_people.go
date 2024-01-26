@@ -4,14 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/guardian/steampipe-plugin-galaxies/store"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
-	"os"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 type Person struct {
@@ -40,19 +36,10 @@ func tablePeople() *plugin.Table {
 }
 
 func getPeople(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	cfg, err := config.LoadDefaultConfig(
-		ctx,
-		config.WithRegion("eu-west-1"),
-		config.WithSharedConfigProfile("deployTools"),
-	)
-
+	s, err := store.GalaxiesS3(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("unable to load AWS config, %w", err)
 	}
-
-	client := s3.NewFromConfig(cfg)
-	bucket := os.Getenv("GALAXIES_BUCKET")
-	s := store.New(client, bucket, "galaxies.gutools.co.uk/data")
 
 	data, err := s.Get("people.json")
 	if err != nil {

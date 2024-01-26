@@ -2,7 +2,10 @@ package store
 
 import (
 	"context"
+	"fmt"
+	"github.com/aws/aws-sdk-go-v2/config"
 	"io"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
@@ -40,4 +43,21 @@ func (store S3) Get(key string) ([]byte, error) {
 	defer res.Body.Close()
 
 	return data, nil
+}
+
+func GalaxiesS3(ctx context.Context) (S3, error) {
+	cfg, err := config.LoadDefaultConfig(
+		ctx,
+		config.WithRegion("eu-west-1"),
+		config.WithSharedConfigProfile("deployTools"),
+	)
+
+	if err != nil {
+		return S3{}, fmt.Errorf("unable to load AWS config, %w", err)
+	}
+
+	client := s3.NewFromConfig(cfg)
+	bucket := os.Getenv("GALAXIES_BUCKET")
+	s := New(client, bucket, "galaxies.gutools.co.uk/data")
+	return s, nil
 }

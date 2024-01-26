@@ -10,7 +10,15 @@ To run this plugin locally:
 1. Clone the repository
 2. Run the [setup script](script/setup). This will build the plugin binary, and symlink it to the Steampipe home directory.
 3. Set the environment variable `GALAXIES_BUCKET`
-4. Run a query. For example `steampipe query "select * from galaxies.galaxies_people"`
+   
+   ```bash
+   export GALAXIES_BUCKET=$(aws ssm get-parameter --name /INFRA/deploy/cloudquery/actions-static-site-bucket-arn --profile deployTools --region eu-west-1 | jq -r '.Parameter.Value | sub("arn:aws:s3:::"; "")')
+   ```
+4. Run a query. For example:
+
+   ```bash
+   steampipe query "select * from galaxies.galaxies_people"
+   ```
 
 ## Contributing
 1. Make a code change

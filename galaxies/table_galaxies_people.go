@@ -52,7 +52,7 @@ func getPeople(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	client := s3.NewFromConfig(cfg)
 	bucket := os.Getenv("GALAXIES_BUCKET")
-	s := store.New(client, bucket)
+	s := store.New(client, bucket, "galaxies.gutools.co.uk/data")
 
 	data, err := s.Get("people.json")
 	if err != nil {

@@ -9,20 +9,24 @@ import (
 
 type S3 struct {
 	bucket string
+	prefix string
 	client *s3.Client
 }
 
-func New(client *s3.Client, bucket string) S3 {
+func New(client *s3.Client, bucket, prefix string) S3 {
 	return S3{
 		client: client,
 		bucket: bucket,
+		prefix: prefix,
 	}
 }
 
 func (store S3) Get(key string) ([]byte, error) {
+	fullKey := store.prefix + "/" + key
+
 	res, err := store.client.GetObject(context.Background(), &s3.GetObjectInput{
 		Bucket: &store.bucket,
-		Key:    &key,
+		Key:    &fullKey,
 	})
 
 	if err != nil {
